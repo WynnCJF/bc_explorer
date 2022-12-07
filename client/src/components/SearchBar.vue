@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid="sm" class="fixed-top search-enter">
+  <!-- <b-container fluid="sm" class="fixed-top search-enter">
     <b-row>
       <b-col sm>
         <div v-if="store.user.loggedIn">
@@ -38,13 +38,65 @@
         </div>
       </b-col>
     </b-row>
-  </b-container>
+  </b-container> -->
+
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="info" fixed="top" class="bc_navbar">
+      <b-navbar-brand href="/">Bandcamp Explorer</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+  
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <div v-if="store.user.loggedIn">
+            <b-nav-item to="/dashboard">Dashboard</b-nav-item>
+          </div>
+
+          <div v-if="!store.user.loggedIn">
+            <b-nav-item to="/login">Login</b-nav-item>
+          </div>
+          <div v-if="!store.user.loggedIn">
+            <b-nav-item to="/register">Register</b-nav-item>
+          </div>
+        </b-navbar-nav>
+  
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <div v-if="store.user.loggedIn">
+            <b-nav-item>Welcome, {{ store.user.data.displayName }}</b-nav-item>
+          </div>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+
+    <div>
+      <input type="search" class="nosubmit form-control" placeholder="Search for Label or Artist on Bandcamp..."
+        @keyup.enter="useSearch" v-model="enter_search_term">
+      <div class="results-container">
+        <div v-for='n in search_res_data' v-bind:key="n.id" class="search-result">
+          <div @click="clickAddLabel(n.name, n.url, n.itemtype)" v-on-clickaway="away">
+            <b-img thumbnail fluid left :src="n.img_src"></b-img>
+            <div class="result-info">
+              <div class="itemtype">
+                {{ n.itemtype }}
+              </div>
+              <div class="heading">
+                {{ n.name }}
+              </div>
+              <div class="subhead">
+                {{ n.subhead }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { store } from './store'
 import { mixin as clickaway } from 'vue-clickaway';
-import { RouterLink } from 'vue-router';
+// import { RouterLink } from 'vue-router';
 
 export default {
   data() {
@@ -87,7 +139,7 @@ export default {
       this.search_res_data = [];
     },
   },
-  components: { RouterLink }
+  // components: { RouterLink }
 }
 </script>
 
@@ -155,5 +207,9 @@ input.nosubmit {
   width: 80px;
   height: 80px;
   margin-right: 15px;
+}
+
+.bc_navbar {
+  height: 5rem;
 }
 </style>

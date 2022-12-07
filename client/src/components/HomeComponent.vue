@@ -30,7 +30,7 @@ export default {
 }
 
 .main-container {
-  margin-top: 100px;
+  margin-top: 5rem;
 }
 
 .card-body {

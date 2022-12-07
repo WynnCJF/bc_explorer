@@ -31,6 +31,6 @@ export default {
 
 <style>
 .labels_container {
-  margin-top: 10%;
+  margin-top: 2rem;
 }
 </style>
