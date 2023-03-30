@@ -61,7 +61,10 @@ export default {
       this.search_res_data = [];
     },
     useSearch() {
-      const url = "http://127.0.0.1:5000/search/";
+      const base_url = process.env.NODE_ENV === "development" ? 'http://127.0.0.1:5000/' : '';
+
+      const url = base_url + "/search/";
+
       fetch(url, {
         method: "POST",
         headers: new Headers({
@@ -72,8 +75,9 @@ export default {
         }),
       })
         .then((response) => {
-          if (!response.ok)
+          if (!response.ok) {
             throw Error(response.statusText);
+          }
           return response.json();
         })
         .then((data) => {

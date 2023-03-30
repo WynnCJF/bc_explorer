@@ -23,8 +23,9 @@
     </ul>
     <div :id="[this.elId]">
       <div v-for="release, idx in releases" :key="idx">
-        <ReleaseCard :key="release.album_name" :url="release.album_url" :artist="release.artist_name"
-          :cover="release.cover_img_url" :title="release.album_name">
+        <ReleaseCard :key="release.album_name" :url="release.album_url"
+          :artist="itemtype === 'ARTIST' ? label_name : release.artist_name" :cover="release.cover_img_url"
+          :title="release.album_name" :fromItemtype="itemtype">
         </ReleaseCard>
       </div>
     </div>
@@ -46,8 +47,10 @@ export default {
   },
   async created() {
     this.elId = `elId-${Date.now()}` + `${Math.floor(Math.random() * 100)}`;
+    const base_url = process.env.NODE_ENV === "development" ? 'http://127.0.0.1:5000/' : '';
 
-    const url = 'http://127.0.0.1:5000/get_releases/';
+    const url = base_url + "/get_releases/";
+
     fetch(url, {
       method: 'POST',
       headers: new Headers({
