@@ -74,7 +74,8 @@ export default {
 
     clickAddUser(labelUrl) {
       // this.store.addNewLabel(name, labelUrl, itemtype);
-      const url = "http://127.0.0.1:5000/get_following/";
+      const base_url = process.env.NODE_ENV === "development" ? 'http://127.0.0.1:5000/' : '';
+      const url = base_url + "/get_following/";
       fetch(url, {
         method: "POST",
         headers: new Headers({
